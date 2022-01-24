@@ -21,61 +21,42 @@ export class App extends Component {
     bad: this.props.initialValue,
   };
 
-  handleGoodBtn = () => {
+  handleBtn = option => {
     this.setState(prevState => ({
-      good: prevState.good + 1,
+      [option]: prevState[option] + 1,
     }));
-    this.countTotalFeedback();
-    this.countPositiveFeedbackPercentage();
-  };
-
-  handleNeutralBtn = () => {
-    this.setState(prevState => ({
-      neutral: prevState.neutral + 1,
-    }));
-    this.countTotalFeedback();
-    this.countPositiveFeedbackPercentage();
-  };
-
-  handleBadBtn = () => {
-    this.setState(prevState => ({
-      bad: prevState.bad + 1,
-    }));
-    this.countTotalFeedback();
-    this.countPositiveFeedbackPercentage();
   };
 
   countTotalFeedback = () => {
-    this.setState(({ good, neutral, bad }) => ({
-      total: good + neutral + bad,
-    }));
+    return Object.values(this.state).reduce((total, value) => total + value, 0);
   };
 
   countPositiveFeedbackPercentage = () => {
-    this.setState(({ good, total }) => ({
-      positiveFeedback: Math.round((good / total) * 100),
-    }));
+    return this.countTotalFeedback() === this.props.initialValue
+      ? this.props.initialValue
+      : Math.round((this.state.good / this.countTotalFeedback()) * 100);
   };
 
   render() {
+    const { good, neutral, bad } = this.state;
+
     return (
       <>
         <GlobalStyle />
         <Section title="Please leave feedback">
           <FeedbackOptions
-            onHandleGoodBtn={this.handleGoodBtn}
-            onHandleNeutralBtn={this.handleNeutralBtn}
-            onHandleBadBtn={this.handleBadBtn}
-          />
-          {!this.state.total ? (
+            options={Object.keys(this.state)}
+            onLeaveFeedback={this.handleBtn}
+          ></FeedbackOptions>
+          {!this.countTotalFeedback() ? (
             <Notification message="There is no feedback" />
           ) : (
             <Statistics
-              good={this.state.good}
-              neutral={this.state.neutral}
-              bad={this.state.bad}
-              total={this.state.total}
-              positiveFeedback={this.state.positiveFeedback}
+              good={good}
+              neutral={neutral}
+              bad={bad}
+              getTotal={this.countTotalFeedback}
+              getPositiveFeedback={this.countPositiveFeedbackPercentage}
               initialValue={this.props.initialValue}
             />
           )}

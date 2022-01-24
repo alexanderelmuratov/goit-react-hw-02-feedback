@@ -9,8 +9,8 @@ export const Statistics = ({
   good,
   neutral,
   bad,
-  total,
-  positiveFeedback,
+  getTotal,
+  getPositiveFeedback,
   initialValue,
 }) => (
   <div>
@@ -26,12 +26,14 @@ export const Statistics = ({
         <StatisticsData>Bad: {bad}</StatisticsData>
       </li>
       <li>
-        <StatisticsData>Total: {total ? total : initialValue}</StatisticsData>
+        <StatisticsData>
+          Total: {getTotal() ? getTotal() : initialValue}
+        </StatisticsData>
       </li>
       <li>
         <StatisticsData>
           Positive feedback:{' '}
-          {positiveFeedback ? positiveFeedback : initialValue}%
+          {getPositiveFeedback() ? getPositiveFeedback() : initialValue}%
         </StatisticsData>
       </li>
     </ul>
@@ -42,7 +44,7 @@ Statistics.propTypes = {
   good: PropTypes.number.isRequired,
   neutral: PropTypes.number.isRequired,
   bad: PropTypes.number.isRequired,
-  total: PropTypes.number.isRequired,
-  positiveFeedback: PropTypes.number.isRequired,
+  getTotal: PropTypes.func.isRequired,
+  getPositiveFeedback: PropTypes.func.isRequired,
   initialValue: PropTypes.number.isRequired,
 };

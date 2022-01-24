@@ -5,26 +5,21 @@ import {
   OptionBtn,
 } from 'components/FeedbackOptions/FeedbackOptions.styled';
 
-export const FeedbackOptions = ({
-  onHandleGoodBtn,
-  onHandleNeutralBtn,
-  onHandleBadBtn,
-}) => (
+export const FeedbackOptions = ({ options, onLeaveFeedback }) => (
   <BtnWrapper>
-    <OptionBtn type="button" onClick={onHandleGoodBtn}>
-      Good
-    </OptionBtn>
-    <OptionBtn type="button" onClick={onHandleNeutralBtn}>
-      Neutral
-    </OptionBtn>
-    <OptionBtn type="button" onClick={onHandleBadBtn}>
-      Bad
-    </OptionBtn>
+    {options.map(option => (
+      <OptionBtn
+        key={option}
+        type="button"
+        onClick={() => onLeaveFeedback(option)}
+      >
+        {option}
+      </OptionBtn>
+    ))}
   </BtnWrapper>
 );
 
 FeedbackOptions.propTypes = {
-  onHandleGoodBtn: PropTypes.func.isRequired,
-  onHandleNeutralBtn: PropTypes.func.isRequired,
-  onHandleBadBtn: PropTypes.func.isRequired,
+  options: PropTypes.arrayOf(PropTypes.string).isRequired,
+  onLeaveFeedback: PropTypes.func.isRequired,
 };
