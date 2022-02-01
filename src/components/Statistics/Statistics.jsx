@@ -12,33 +12,37 @@ export const Statistics = ({
   getTotal,
   getPositiveFeedback,
   initialValue,
-}) => (
-  <div>
-    <StatisticsTitle>Statistics</StatisticsTitle>
-    <ul>
-      <li>
-        <StatisticsData>Good: {good}</StatisticsData>
-      </li>
-      <li>
-        <StatisticsData>Neutral: {neutral}</StatisticsData>
-      </li>
-      <li>
-        <StatisticsData>Bad: {bad}</StatisticsData>
-      </li>
-      <li>
-        <StatisticsData>
-          Total: {getTotal() ? getTotal() : initialValue}
-        </StatisticsData>
-      </li>
-      <li>
-        <StatisticsData>
-          Positive feedback:{' '}
-          {getPositiveFeedback() ? getPositiveFeedback() : initialValue}%
-        </StatisticsData>
-      </li>
-    </ul>
-  </div>
-);
+}) => {
+  const total = getTotal() ? getTotal() : initialValue;
+  const positiveFeedback = getPositiveFeedback()
+    ? getPositiveFeedback()
+    : initialValue;
+
+  return (
+    <div>
+      <StatisticsTitle>Statistics</StatisticsTitle>
+      <ul>
+        <li>
+          <StatisticsData>Good: {good}</StatisticsData>
+        </li>
+        <li>
+          <StatisticsData>Neutral: {neutral}</StatisticsData>
+        </li>
+        <li>
+          <StatisticsData>Bad: {bad}</StatisticsData>
+        </li>
+        <li>
+          <StatisticsData>Total: {total}</StatisticsData>
+        </li>
+        <li>
+          <StatisticsData>
+            Positive feedback: {positiveFeedback}%
+          </StatisticsData>
+        </li>
+      </ul>
+    </div>
+  );
+};
 
 Statistics.propTypes = {
   good: PropTypes.number.isRequired,
